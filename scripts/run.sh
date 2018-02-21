@@ -33,7 +33,7 @@ if [ -z $NTHREADS ]; then
 fi
 
 if [ -z $LOAD ]; then
-	let LOAD=50000000
+	let LOAD=100000000
 fi
 
 if [ -z $EXECUTIONS ]; then
