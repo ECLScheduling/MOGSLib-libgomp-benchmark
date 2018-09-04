@@ -42,7 +42,7 @@ fi
 for i in `seq 1 $EXECUTIONS`;
 do
 	echo "=== Run $i ==="
-	for strategy in dynamic binlpt mogslib;
+	for strategy in mogslib;
 	do
 		echo "=== $strategy ==="
 
