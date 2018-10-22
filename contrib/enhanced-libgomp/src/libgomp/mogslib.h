@@ -5,9 +5,11 @@
 extern "C" {
 #endif
 
-extern void input_set_PE_count(void*, unsigned);
-extern void input_set_chunksize(void* input, unsigned chunksize);
-extern unsigned *strategy_map_tasks(void*, void*);
+extern void mogslib_set_nPEs(unsigned nPEs);
+extern void mogslib_set_ntasks(unsigned ntasks);
+extern void mogslib_set_chunksize(unsigned chunksize);
+
+extern unsigned *mogslib_strategy_map();
 
 #ifdef __cplusplus
 }

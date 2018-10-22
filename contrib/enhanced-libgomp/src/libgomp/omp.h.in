@@ -112,9 +112,6 @@ extern int omp_get_active_level (void) __GOMP_NOTHROW;
 
 extern void omp_set_workload(unsigned *, unsigned);
 
-extern void omp_mogslib_set_strategy(void *strategy_ptr);
-extern void omp_mogslib_set_input(void *input_ptr);
-
 extern int omp_in_final (void) __GOMP_NOTHROW;
 
 extern int omp_get_cancellation (void) __GOMP_NOTHROW;

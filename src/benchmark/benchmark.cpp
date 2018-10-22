@@ -27,7 +27,6 @@
 #include <limits.h>
 
 #include <util.h>
-#include <mogslib_connect.h>
 #include <benchmark.h>
 
 /* Definied at LaPeSD LibGOMP. */
@@ -193,7 +192,6 @@ static void benchmark_cpu(const unsigned *tasks, unsigned ntasks, int nthreads, 
 	memcpy(_tasks, tasks, ntasks*sizeof(unsigned));
 
 	omp_set_workload(_tasks, ntasks);
-	mogslib.setOMP(_tasks, ntasks);
 
 	#pragma omp parallel num_threads(nthreads)
 	{
@@ -273,7 +271,6 @@ static void benchmark_cache(const unsigned *tasks, unsigned ntasks, int nthreads
 	memcpy(_tasks, tasks, ntasks*sizeof(unsigned));
 	
 	omp_set_workload(_tasks, ntasks);
-	mogslib.setOMP(_tasks, ntask);
 
 	#pragma omp parallel num_threads(nthreads)
 	{

@@ -61,38 +61,6 @@ void omp_set_workload(unsigned *tasks, unsigned ntasks)
 unsigned __nchunks = 1;
 
 /*============================================================================*
- * MOGSLib Strategy Selection Information                                     *
- *============================================================================*/
-
-/**
- * @brief The strategy C++ class wrapper structure.
- */
-void *strategy;
-
-/**
- * @brief The pointer to an input for the strategy wrapper.
- */
-void *input;
-
-/**
- * @brief Sets the strategy structure that the mogslib will call.
- *
- * @param strategy_ptr  A pointer to the strategy structure.
- */
-void omp_mogslib_set_strategy(void *strategy_ptr) {
-  strategy = strategy_ptr;
-}
-
-/**
- * @brief Sets the input structure that the mogslib will use for the strategy.
- *
- * @param input_ptr  A pointer to the input structure.
- */
-void omp_mogslib_set_input(void *input_ptr){
-  input = input_ptr;
-}
-
-/*============================================================================*
  * Workload Sorting                                                           *
  *============================================================================*/
 
@@ -406,10 +374,11 @@ static unsigned *binlpt_balance(unsigned *tasks, unsigned ntasks, unsigned nthre
 static unsigned *mogslib_balance(unsigned *tasks, unsigned ntasks, unsigned nthreads)
 {
 
-  input_set_PE_count(input, nthreads);
-  input_set_chunksize(input, __nchunks);
+  mogslib_set_nPEs(nthreads);
+  mogslib_set_ntasks(ntasks);
+  mogslib_set_chunksize(__nchunks);
 
-  return strategy_map_tasks(strategy, input);
+  return mogslib_strategy_map();
 }
 
 /*============================================================================*

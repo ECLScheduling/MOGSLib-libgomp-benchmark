@@ -1,54 +1,74 @@
-#include <rts/rts_includes.h>
-
-#ifdef RTS_IS_OPENMP
-
-#include <mogslib.h>
+#include <mogslib/mogslib.h>
 
 /**
- * TODO: The following flags are a remedy for the problem of setting the adaptor and strategy.
- * As it is currently implemented, there are still changes to be made in this file and possibly inside OpenMP before full support. 
- * A possible and elegant way to proper configure this file's include and pre-processor directives is to work on the pre-processing script,
- * currently configure.sh, to better address the problem of selecting the strategy, the target system and which information to use from within.
- * For now this is cumbersome but can already be used as a proof of concept that portability is do-able, yet not simple.
+ * @brief Set the amount of chunks in the OpenMP RTS datastructure.
+ * @details A C++ proxy function to set the chunksize data in OpenMP.
+ * @param chunksize The amount of chunks generated in OpenMP.
  */
-#define USE_OMP_CHUNK_SIZE
-
-struct OMP_Data {
-  unsigned omp_chunk_size;
-};
-OMP_Data omp_data;
-
-void call_pe_count(void *obj, unsigned npe) {
-  static_cast<MOGSLib::Adaptor*>(obj)->setPECount(npe);
+inline void mogslib_call_set_chunksize(unsigned chunksize) {
+  MOGSLib::RTS::set_chunk_size(chunksize);
 }
 
-void call_set_structure(void *obj, unsigned chunksize) {
-  omp_data.omp_chunk_size = chunksize;
-
-  //TODO: This definition is problematic as is. For now it works, but a pre-compiler must properly set it.
-  #ifdef USE_OMP_CHUNK_SIZE
-  static_cast<MOGSLib::Adaptor*>(obj)->setStructure(chunksize);
-  #endif
+/**
+ * @brief Set the amount of chunks in the OpenMP RTS datastructure.
+ * @details A C++ proxy function to set the chunksize data in OpenMP.
+ * @param chunksize The amount of chunks generated in OpenMP.
+ */
+inline void mogslib_call_set_nPEs(unsigned nPEs) {
+  MOGSLib::RTS::set_nPEs(nPEs);
 }
 
-unsigned *call_strategy_map(void *obj, void *arg) {
-  return static_cast<MOGSLib::Strategy*>(obj)->mapTasks(static_cast<MOGSLib::Adaptor*>(arg));
+/**
+ * @brief Set the amount of tasks in the OpenMP RTS datastructure.
+ * @details A C++ proxy function to set the ntasks data in OpenMP.
+ * @param ntasks The amount of tasks generated in OpenMP.
+ */
+inline void mogslib_call_set_ntasks(unsigned ntasks) {
+  MOGSLib::RTS::set_ntasks(ntasks);
+}
+
+/**
+ * @brief Call the scheduler within MOGSLib to obtain a task map.
+ * @details A C++ proxy function to call the selected MOGSLib scheduler.
+ * @return The task map represented as an array to where the task should execute.
+ */
+inline unsigned *mogslib_call_strategy_map() {
+  std::string scheduler_name = "binlpt";
+  return MOGSLib::SchedulerCollection::schedule(scheduler_name);
 }
 
 extern "C" {
 
-void input_set_PE_count(void* input, unsigned npe) {
-  call_pe_count(input, npe);
+/**
+ * @brief A function to interface with MOGSLib to register the amount of chunks in OpenMP.
+ * @details A C function to interface with OpenMP and direct the execution flow back to C++.
+ */
+void mogslib_set_chunksize(unsigned chunksize) {
+  mogslib_call_set_chunksize(chunksize);
 }
 
-void input_set_chunksize(void* input, unsigned chunksize) {
-  call_set_structure(input, chunksize);
+/**
+ * @brief A function to interface with MOGSLib to register the amount of PEs in OpenMP.
+ * @details A C function to interface with OpenMP and direct the execution flow back to C++.
+ */
+void mogslib_set_nPEs(unsigned nPEs) {
+  mogslib_call_set_nPEs(nPEs);
 }
 
-unsigned *strategy_map_tasks(void* strategy, void* input) {
-  return call_strategy_map(strategy, input);
+/**
+ * @brief A function to interface with MOGSLib to register the amount of tasks in OpenMP.
+ * @details A C function to interface with OpenMP and direct the execution flow back to C++.
+ */
+void mogslib_set_ntasks(unsigned ntasks) {
+  mogslib_call_set_ntasks(ntasks);
+}
+
+/**
+ * @brief A function to interface with MOGSLib to call the scheduler task mapping.
+ * @details A C function to interface with OpenMP and direct the execution flow back to C++.
+ */
+unsigned *mogslib_strategy_map() {
+  return mogslib_call_strategy_map();
 }
 
 }
-
-#endif // RTS_IS_OPENMP
