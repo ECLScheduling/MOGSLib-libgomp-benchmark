@@ -33,8 +33,7 @@ inline void mogslib_call_set_ntasks(unsigned ntasks) {
  * @return The task map represented as an array to where the task should execute.
  */
 inline unsigned *mogslib_call_strategy_map() {
-  std::string scheduler_name = "binlpt";
-  return MOGSLib::SchedulerCollection::schedule(scheduler_name);
+  return MOGSLib::SchedulerCollection::schedule();
 }
 
 extern "C" {
