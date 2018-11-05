@@ -26,7 +26,7 @@ export SRCDIR = $(CURDIR)/src
 export CC = g++
 
 # Toolchain configuration.
-export CFLAGS += -I $(INCDIR) -I $(CURDIR)/contrib/enhanced-libgomp/src/libgomp/build -I $(CURDIR)/..//lb-framework/include
+export CFLAGS += -I $(INCDIR) -I $(CURDIR)/contrib/enhanced-libgomp/src/libgomp/build -I $(CURDIR)/..//MOGSLib/include
 export CFLAGS += --std=c++14 -static -fopenmp
 export CFLAGS += -Wall -Wextra
 export CFLAGS += -O3

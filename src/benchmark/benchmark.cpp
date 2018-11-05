@@ -31,6 +31,7 @@
 
 /* Definied at LaPeSD LibGOMP. */
 extern void omp_set_workload(unsigned *, unsigned);
+extern unsigned *__mogslib_workload_array;
 
 /*============================================================================*
  *                                   Kernel                                   *
@@ -190,7 +191,7 @@ static void benchmark_cpu(const unsigned *tasks, unsigned ntasks, int nthreads, 
 	
 	/* Workload prediction. */
 	memcpy(_tasks, tasks, ntasks*sizeof(unsigned));
-
+	__mogslib_workload_array = _tasks;
 	omp_set_workload(_tasks, ntasks);
 
 	#pragma omp parallel num_threads(nthreads)
@@ -269,7 +270,7 @@ static void benchmark_cache(const unsigned *tasks, unsigned ntasks, int nthreads
 	
 	/* Workload prediction. */
 	memcpy(_tasks, tasks, ntasks*sizeof(unsigned));
-	
+	__mogslib_workload_array = _tasks;
 	omp_set_workload(_tasks, ntasks);
 
 	#pragma omp parallel num_threads(nthreads)

@@ -27,12 +27,16 @@ inline void mogslib_call_set_ntasks(unsigned ntasks) {
   MOGSLib::RTS::set_ntasks(ntasks);
 }
 
+MOGSLib::Load *__mogslib_workload_array = nullptr;
+
 /**
  * @brief Call the scheduler within MOGSLib to obtain a task map.
  * @details A C++ proxy function to call the selected MOGSLib scheduler.
  * @return The task map represented as an array to where the task should execute.
  */
 inline unsigned *mogslib_call_strategy_map() {
+  MOGSLib::RTS::set_task_load_function([](){ return __mogslib_workload_array; });
+  
   return MOGSLib::SchedulerCollection::schedule();
 }
 
