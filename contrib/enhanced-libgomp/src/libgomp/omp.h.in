@@ -111,6 +111,7 @@ extern int omp_get_team_size (int) __GOMP_NOTHROW;
 extern int omp_get_active_level (void) __GOMP_NOTHROW;
 
 extern void omp_set_workload(unsigned *, unsigned);
+extern void omp_set_taskmap_size(unsigned);
 
 extern int omp_in_final (void) __GOMP_NOTHROW;
 

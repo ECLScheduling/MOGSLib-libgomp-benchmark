@@ -58,6 +58,10 @@ void omp_set_workload(unsigned *tasks, unsigned ntasks)
 	__ntasks = ntasks;
 } 
 
+void omp_set_taskmap_size(unsigned n) {
+  __ntasks = n;
+}
+
 unsigned __nchunks = 1;
 
 /*============================================================================*
@@ -375,7 +379,6 @@ static unsigned *mogslib_balance(unsigned *tasks, unsigned ntasks, unsigned nthr
 {
 
   mogslib_set_nPEs(nthreads);
-  mogslib_set_ntasks(ntasks);
   mogslib_set_chunksize(__nchunks);
 
   return mogslib_strategy_map();

@@ -11,6 +11,7 @@ OMP_1.0 {
 	omp_set_nested;
 	omp_get_nested;
 	omp_set_workload;
+	omp_set_taskmap_size;
 #ifdef HAVE_SYMVER_SYMBOL_RENAMING_RUNTIME_SUPPORT
         # If the assembler used lacks the .symver directive or the linker
 	# doesn't support GNU symbol versioning, we have the same symbol in
@@ -68,6 +69,8 @@ OMP_3.0 {
 	omp_set_schedule_8_;
 	omp_set_workload;
 	omp_set_workload_;
+	omp_set_taskmap_size;
+	omp_set_taskmap_size_;
 	omp_get_schedule;
 	omp_get_schedule_;
 	omp_get_schedule_8_;
