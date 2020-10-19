@@ -1,0 +1,6 @@
+[submodule "contrib/libgomp"]
+	path = contrib/libgomp
+	url = https://github.com/alexandrelimassantana/libgomp
+[submodule "contrib/MOGSLib"]
+	path = contrib/MOGSLib
+	url = https://github.com/ECLScheduling/MOGSLib

@@ -5,3 +5,5 @@
 *.la
 *.out
 *.elf
+
+contrib/enhanced-libgomp/src/libgomp/libgomp/build/
