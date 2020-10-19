@@ -26,13 +26,13 @@ export SRCDIR = $(CURDIR)/src
 export CC = g++
 
 # Toolchain configuration.
-export CFLAGS += -I$(INCDIR) -I$(CURDIR)/contrib/libgomp/src/libgomp/build -I$(CURDIR)/..//MOGSLib/include
-export CFLAGS += --std=c++14 -static -fopenmp
+export CFLAGS += -I$(INCDIR) -I$(CURDIR)/contrib/libgomp/src/libgomp/build -I$(CURDIR)/contrib/MOGSLib/include
+export CFLAGS += --std=c++14 -fopenmp
 export CFLAGS += -Wall -Wextra
 export CFLAGS += -O3
 
 # Libraries.
-export LIBS = -L$(CURDIR)/contrib/enhanced-libgomp/src/libgomp/build/.libs -lgomp -lm
+export LIBS = -L$(CURDIR)/contrib/libgomp/src/libgomp/build/.libs -lgomp -lm
 
 # Executable file.
 export EXEC = benchmark

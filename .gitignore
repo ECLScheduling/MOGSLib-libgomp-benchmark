@@ -7,3 +7,4 @@
 *.elf
 
 contrib/enhanced-libgomp/src/libgomp/libgomp/build/
+.vscode/
