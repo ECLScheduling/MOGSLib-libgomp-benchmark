@@ -171,26 +171,23 @@ static void strategy_data_dump(const double *respvar, int nthreads) {
  * @param nthreads Number of threads.
  * @param load     Kernel load.
  */
-static void benchmark_cpu(const unsigned *tasks, unsigned ntasks, int nthreads, long load)
+static void benchmark_cpu(unsigned *tasks, unsigned ntasks, int nthreads, long load)
 {
   long sum;
-  unsigned *_tasks;
   double loads[nthreads];
   double times[nthreads];
   double decision_time[nthreads];
 
-  _tasks = new unsigned int[ntasks]();
-
   memset(times, 0, nthreads*sizeof(double));
   memset(loads, 0, nthreads*sizeof(unsigned));
-  
-  /* Workload prediction. */
-  std::vector<unsigned> taskloads(ntasks);
-  for (unsigned i = 0; i < ntasks; ++i)
-    loads[i] = _tasks[i];
-  std::get<0>(MOGSLib::API::contexts).set_loads(taskloads);
-  omp_set_workload(0, _tasks, ntasks, false);  // Used in native omp_sched
 
+  /* Workload prediction. */
+  std::vector<unsigned> vecloads(ntasks);
+  for (unsigned i = 0; i < ntasks; ++i) {
+    vecloads[i] = tasks[i];
+  }
+  std::get<0>(MOGSLib::API::contexts).set_loads(vecloads);  // Used in MOGSLib binlpt
+  omp_set_workload(0, tasks, ntasks, false);  // Used in native omp_sched
   #pragma omp parallel num_threads(nthreads)
   {
     int tid;
@@ -232,9 +229,6 @@ static void benchmark_cpu(const unsigned *tasks, unsigned ntasks, int nthreads, 
   benchmark_dump(loads, nthreads, "cpu_load");
   benchmark_dump(times, nthreads, "cpu_time");
   strategy_data_dump(decision_time, nthreads);
-
-  /* House keeping. */
-  delete [] _tasks;
 }
 
 #if defined(_CACHE_BENCHMARK_)
@@ -315,7 +309,7 @@ static void benchmark_cache(const unsigned *tasks, unsigned ntasks, int nthreads
  * @param nthreads Number of threads.
  * @param load     Load for constant kernel.
  */
-void benchmark(const unsigned *tasks, unsigned ntasks, int nthreads, long load)
+void benchmark(unsigned *tasks, unsigned ntasks, int nthreads, long load)
 {
   /* Sanity check. */
   assert(tasks != NULL);

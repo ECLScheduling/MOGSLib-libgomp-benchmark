@@ -33,7 +33,8 @@ if [ -z $NTHREADS ]; then
 fi
 
 if [ -z $LOAD ]; then
-	let LOAD=100000000
+	#let LOAD=100000000
+  let LOAD=1000000
 fi
 
 if [ -z $EXECUTIONS ]; then
@@ -42,15 +43,14 @@ fi
 for i in `seq 1 $EXECUTIONS`;
 do
 	echo "=== Run $i ==="
-	for strategy in mogslib;
+	for strategy in mogslib binlpt;
 	do
 		echo "=== $strategy ==="
 
-		export LD_LIBRARY_PATH=contrib/enhanced-libgomp/src/libgomp/build/.libs/
+		export LD_LIBRARY_PATH=contrib/libgomp/src/libgomp/build/.libs/
 		export OMP_SCHEDULE="$strategy"
 		export MOGSLIB_SCHEDULE="binlpt"
 		export GOMP_CPU_AFFINITY="0-$NTHREADS"
-
 		bin/benchmark.elf        \
 			--input $INPUT       \
 			--nthreads $NTHREADS \

@@ -21,6 +21,6 @@
 #define BENCHMARK_H_
 
 	/* Forward definitions. */
-	extern void benchmark(const unsigned *, unsigned, int, long);
+	extern void benchmark(unsigned *, unsigned, int, long);
 
 #endif /* BENCHMARK_H_ */
